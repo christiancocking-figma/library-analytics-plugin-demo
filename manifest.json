@@ -1,0 +1,18 @@
+{
+  "name": "Library Analytics Inspect",
+  "id": "1337087106947086521",
+  "api": "1.0.0",
+  "main": "code.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": [
+    "figma"
+  ],
+  "ui": "ui.html",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://api.figma.com",
+      "https://httpbin.org"
+    ]
+  }
+}

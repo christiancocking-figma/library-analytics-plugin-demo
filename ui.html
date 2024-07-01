@@ -1,0 +1,16 @@
+<h2 style="text-align: center;  ffont-family: Inter; font-weight: 400;">Library Analytics Plugin</h2>
+
+<p style="text-align: center;  text-align: center; color: black; font-size: 12px; font-family: Inter; font-weight: 700; margin-top: 50px;">Click to get random library anayltics from a component</p>
+
+<div  style="display: flex; align-items: center; justify-content: center;">
+  <button id="get-component-analytics"> Get Component Analytics</button>
+</div>
+
+<script>
+
+  document.getElementById('get-component-analytics').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'display-analytics', count: 2 } }, '*')
+  }
+  
+</script>
+  
