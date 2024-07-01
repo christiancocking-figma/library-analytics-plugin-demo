@@ -1,4 +1,4 @@
-<h2 style="text-align: center;  ffont-family: Inter; font-weight: 400;">Library Analytics Plugin</h2>
+<h2 style="text-align: center;  font-family: Inter; font-weight: 400;">Library Analytics Plugin</h2>
 
 <p style="text-align: center;  text-align: center; color: black; font-size: 12px; font-family: Inter; font-weight: 700; margin-top: 50px;">Enter the file key of your library file to get analytics for component instances on this page</p>
 
@@ -10,10 +10,17 @@
   <button id="get-component-analytics"> Get Component Analytics</button>
 </div>
 
+<div  style="display: flex; align-items: center; justify-content: center;" id="results">
+  
+</div>
+
+
 
 
 
 <script>
+
+  
 
   document.getElementById('get-component-analytics').onclick = () => {
     
@@ -22,6 +29,16 @@
     if (library_file_key_input.length < 3) alert('Please input the library file key');
     else parent.postMessage({ pluginMessage: { type: 'display-analytics', library_file_key: library_file_key_input} }, '*')
   }
+
+  onmessage = (event) => {
+    
+    event.data.pluginMessage.info.matched_analytics.forEach(function(e) {
+      document.getElementById('results').innerHTML +=JSON.stringify(e) ;
+    })
+
+  }
+
+ 
   
 </script>
   

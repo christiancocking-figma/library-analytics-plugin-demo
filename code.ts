@@ -22,19 +22,7 @@ figma.ui.onmessage = async msg => {
   // Display Library Analytics Button Clicks
   if (msg.type === 'display-analytics') {
     
-    // Step 1: Grab Library Analytics Data from the File Key that was Specified
-    fetch(`https://api.figma.com/v1/analytics/libraries/${msg.library_file_key}/actions?group_by=component`, {
-      method: 'GET',
-      headers: {
-        'X-FIGMA-TOKEN': LIBRARY_ANALYTICS_API_KEY,
-      },
-    }).then((response) => {
-      response.json().then((data) => {
-        console.log(data);
-      });
-    }).catch((error) => {
-      console.error(error);
-    })
+    let libray_anayltics = {};
 
     // Step 2: Parse the Component Data against the components on the current page
 
@@ -62,14 +50,38 @@ figma.ui.onmessage = async msg => {
         if (instance_nodes.mainComponent !== undefined) return {"maincomponent_key": instance_nodes.mainComponent.key};
       });
 
-      console.log(main_component_info);
+          // Step 1: Grab Library Analytics Data from the File Key that was Specified
+      fetch(`https://api.figma.com/v1/analytics/libraries/${msg.library_file_key}/actions?group_by=component`, {
+        method: 'GET',
+        headers: {
+          'X-FIGMA-TOKEN': LIBRARY_ANALYTICS_API_KEY,
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+          const parsed_analytics = parseLibraryAnalytics(main_component_info, data.rows);
+          figma.ui.resize(750,750);
+          figma.ui.postMessage({ info: { type: 'update-results', matched_analytics: parsed_analytics}});
+        });
+      }).catch((error) => {
+        console.error(error);
+      })
     }
-
-
-    
   }
 
   // Make sure to close the plugin when you're done. Otherwise the plugin will
   // keep running, which shows the cancel button at the bottom of the screen.
   //figma.closePlugin();
 };
+
+function parseLibraryAnalytics (component_keys, library_data) {
+
+  const matched_analytics_data = [];
+
+  const raw_component_keys =  component_keys.map(function (e) { return e.maincomponent_key });
+  const matched_library_nodes = library_data.forEach(function (e) {
+    if (raw_component_keys.includes(e.component_key) {
+      matched_analytics_data.push(e);
+    }
+  });
+  return matched_analytics_data;
+}
