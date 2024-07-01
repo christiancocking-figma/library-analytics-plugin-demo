@@ -22,7 +22,7 @@ figma.ui.onmessage = async msg => {
   // Display Library Analytics Button Clicks
   if (msg.type === 'display-analytics') {
     
-    
+    // Step 1: Grab Library Analytics Data from the File Key that was Specified
     fetch(`https://api.figma.com/v1/analytics/libraries/${msg.library_file_key}/actions?group_by=component`, {
       method: 'GET',
       headers: {
@@ -35,16 +35,35 @@ figma.ui.onmessage = async msg => {
     }).catch((error) => {
       console.error(error);
     })
+
+    // Step 2: Parse the Component Data against the components on the current page
+
+
+    // Step 3: Display Analytics Information about the Components if found
+
+    
     // const response = await fetch(`https://httpbin.org/get?success=true`);
         
-    // if (figma.currentPage.children.length == 0) figma.notify("This Figma Page seems Empty!");
-    // else {
-    //   const random__child_node =  figma.currentPage.children[Math.floor(Math.random() * figma.currentPage.children.length)];
+    if (figma.currentPage.children.length == 0) figma.notify("This Figma Page seems Empty!");
+    else {
 
+      // Get only Instance Nodes
 
-    //   console.log(random__child_node);
+      const child_nodes =  figma.currentPage.children;
 
-    // }
+      // Filters all nodes on the page and checks if they are instances of Components, can't get library analytics if they are not 
+      // Tied to a component
+      const main_component_info = child_nodes.filter(function(e) {
+        if (e.mainComponent === undefined) {
+          return false; // skip
+        }
+        return true;
+      }).map( instance_nodes => {
+        if (instance_nodes.mainComponent !== undefined) return {"maincomponent_key": instance_nodes.mainComponent.key};
+      });
+
+      console.log(main_component_info);
+    }
 
 
     
