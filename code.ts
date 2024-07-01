@@ -8,7 +8,7 @@
 
 // This shows the HTML page in "ui.html".
 
-const LIBRARY_ANALYTICS_API_KEY = "figd_aeic2mLe9B3Jzrb8ftqgvVbuZRnCTdnYg_wn6cRI";
+const LIBRARY_ANALYTICS_API_KEY = "figd_2BGa8U8eeB8G1p1RC_CcMF38Zb_uIwQnXJMNZjyT";
 const FIGMA_FILE_KEY = "MeUybKfQii8pHIAjXeQSkp";
 figma.showUI(__html__);
 
@@ -23,8 +23,7 @@ figma.ui.onmessage = async msg => {
   if (msg.type === 'display-analytics') {
     
     
-    
-    fetch('https://api.figma.com/v1/analytics/libraries/MeUybKfQii8pHIAjXeQSkp/actions?group_by=component', {
+    fetch(`https://api.figma.com/v1/analytics/libraries/${msg.library_file_key}/actions?group_by=component`, {
       method: 'GET',
       headers: {
         'X-FIGMA-TOKEN': LIBRARY_ANALYTICS_API_KEY,
@@ -53,5 +52,5 @@ figma.ui.onmessage = async msg => {
 
   // Make sure to close the plugin when you're done. Otherwise the plugin will
   // keep running, which shows the cancel button at the bottom of the screen.
-  figma.closePlugin();
+  //figma.closePlugin();
 };
