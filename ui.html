@@ -10,17 +10,12 @@
   <button id="get-component-analytics"> Get Component Analytics</button>
 </div>
 
-<div  style="display: flex; align-items: center; justify-content: center;" id="results">
-  
+<div  style="display: flex; align-items: center; justify-content: center; margin-top: 50px;" id="results">
 </div>
 
 
 
-
-
 <script>
-
-  
 
   document.getElementById('get-component-analytics').onclick = () => {
     
@@ -31,14 +26,45 @@
   }
 
   onmessage = (event) => {
-    
-    event.data.pluginMessage.info.matched_analytics.forEach(function(e) {
-      document.getElementById('results').innerHTML +=JSON.stringify(e) ;
-    })
 
+    document.getElementById('results').innerHTML = "";
+
+
+    const table_html = `    
+      <thead>
+        <tr>
+          <th>Component Name</th>
+          <th>Component Key</th>
+          <th>Total Insertions</th>
+          <th>Total Deletions</th>
+        </tr>
+      </thead>
+      <tbody style="align-items: center; justify-content:" id="results_table_body">
+     
+      </tbody>
+    `
+
+    var results_table = document.createElement("TABLE");
+    results_table.setAttribute("id", "aggregateResults");
+    results_table.innerHTML = table_html;
+    document.getElementById('results').appendChild(results_table);
+
+    // This means that we have analytics data to parse through
+    if (Object.keys(event.data.pluginMessage.info.matched_analytics.aggregated.length > 0)) {
+      for (const component_key in event.data.pluginMessage.info.matched_analytics.aggregated) {
+
+        console.log(event.data.pluginMessage.info.matched_analytics.aggregated[component_key].component_name)
+        const table_row_html = `
+          <tr style="text-align: center;">
+            <td>${event.data.pluginMessage.info.matched_analytics.aggregated[component_key].component_name}</td>
+            <td>${component_key}</td>
+            <td> ${event.data.pluginMessage.info.matched_analytics.aggregated[component_key].insertions}</td>
+            <td>${event.data.pluginMessage.info.matched_analytics.aggregated[component_key].detachments}</td>
+          <tr>
+        `
+        
+        document.getElementById("results_table_body").innerHTML+=table_row_html;
+    }
   }
-
- 
-  
+  }
 </script>
-  
