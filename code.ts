@@ -8,7 +8,7 @@
 
 // This shows the HTML page in "ui.html".
 
-const LIBRARY_ANALYTICS_API_KEY = "figd_2BGa8U8eeB8G1p1RC_CcMF38Zb_uIwQnXJMNZjyT";
+const LIBRARY_ANALYTICS_API_KEY = "Put your access token here";
 const FIGMA_FILE_KEY = "MeUybKfQii8pHIAjXeQSkp";
 figma.showUI(__html__);
 
